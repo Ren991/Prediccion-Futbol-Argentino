@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f8f6f0">
+    <meta name="description" content="Explorá un pronóstico de fútbol argentino basado en datos históricos.">
+    <title>Cancha — Predictor de fútbol argentino</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="Cancha, inicio">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 40 40" fill="none">
+              <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="1.5"/>
+              <path d="m20 11 5.3 3.8-2 6.2h-6.6l-2-6.2L20 11Z" fill="currentColor"/>
+              <path d="m10.4 15.9 4.3-1.1m10.6 0 4.3 1.1M16.7 21l-2.5 6.2m9.1-6.2 2.5 6.2m-11.6.1 5.8 2.8 5.8-2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="brand-copy">
+            <strong>CANCHA</strong>
+            <span>FÚTBOL ARGENTINO</span>
+          </span>
+        </a>
+        <button class="info-button" id="open-info" type="button">
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M10 9v4m0-6h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+          <span>Sobre el modelo</span>
+        </button>
+      </header>
+
+      <main>
+        <section class="intro" aria-labelledby="page-title">
+          <div class="intro-copy">
+            <p class="eyebrow"><span class="live-dot"></span> HISTORIA, DATOS Y FÚTBOL</p>
+            <h1 id="page-title">La previa también<br>se juega <em>con datos.</em></h1>
+            <p class="intro-description">
+              Elegí dos clubes y descubrí cómo se reparten las probabilidades.
+              La localía importa. La pasión, también.
+            </p>
+            <div class="period-note">
+              <span class="period-icon" aria-hidden="true">31—21</span>
+              <span><strong>90 años de fútbol</strong><br>Datos históricos de 1931 a 2021</span>
+            </div>
+          </div>
+
+          <div class="pitch-art" aria-hidden="true">
+            <div class="pitch-label pitch-label--top">LOCAL</div>
+            <div class="pitch-label pitch-label--bottom">VISITANTE</div>
+            <div class="pitch">
+              <div class="pitch-halfway"></div>
+              <div class="pitch-circle"></div>
+              <div class="pitch-box pitch-box--left"></div>
+              <div class="pitch-box pitch-box--right"></div>
+              <div class="pitch-dot"></div>
+              <span class="pitch-ball">✳</span>
+            </div>
+            <span class="art-caption">CADA PARTIDO<br>TIENE SU HISTORIA</span>
+          </div>
+        </section>
+
+        <section class="predictor-card" aria-labelledby="form-title">
+          <div class="card-heading">
+            <div>
+              <p class="eyebrow eyebrow--muted">TU PRÓXIMO ENFRENTAMIENTO</p>
+              <h2 id="form-title">Armá el cruce</h2>
+            </div>
+            <span class="club-count">95 CLUBES <span aria-hidden="true">·</span> 1 PREDICCIÓN</span>
+          </div>
+
+          <form id="prediction-form" novalidate>
+            <div class="matchup-fields">
+              <div class="team-field">
+                <label for="local-team"><span class="field-marker field-marker--home"></span>JUEGA DE LOCAL</label>
+                <div class="input-wrap">
+                  <input id="local-team" name="local_team" type="text" list="club-options" placeholder="Buscá un club..." autocomplete="off" required>
+                  <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                    <path d="M4 10h12m-5-5 5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <button class="swap-button" id="swap-teams" type="button" aria-label="Intercambiar local y visitante" title="Intercambiar local y visitante">
+                <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path d="M4 6h11m0 0-2.5-2.5M15 6l-2.5 2.5M16 14H5m0 0 2.5-2.5M5 14l2.5 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+
+              <div class="team-field">
+                <label for="visitor-team"><span class="field-marker field-marker--away"></span>JUEGA DE VISITANTE</label>
+                <div class="input-wrap">
+                  <input id="visitor-team" name="visitor_team" type="text" list="club-options" placeholder="Buscá un club..." autocomplete="off" required>
+                  <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                    <path d="M4 10h12m-5-5 5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+              <datalist id="club-options"></datalist>
+            </div>
+
+            <div class="form-footer">
+              <p class="form-hint"><span aria-hidden="true">↳</span> Escribí para buscar y seleccioná un club de la lista.</p>
+              <button class="predict-button" id="predict-button" type="submit">
+                <span class="button-label">Predecir resultado</span>
+                <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path d="M4 10h12m-5-5 5 5-5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+            <p class="form-message" id="form-message" role="status" aria-live="polite"></p>
+          </form>
+        </section>
+
+        <section class="results-card" id="results" aria-labelledby="results-title" hidden>
+          <div class="results-heading">
+            <div>
+              <p class="eyebrow eyebrow--muted">EL CRUCE ESTÁ SERVIDO</p>
+              <h2 id="results-title">Así lo ve el modelo</h2>
+            </div>
+            <span class="result-badge"><span></span> PRONÓSTICO</span>
+          </div>
+          <p class="result-matchup" id="result-matchup"></p>
+          <div class="probabilities" id="probabilities">
+            <article class="probability probability--home">
+              <div class="probability-topline">
+                <span class="probability-label">GANA EL LOCAL</span>
+                <strong id="local-percent">—%</strong>
+              </div>
+              <div class="progress-track"><span id="local-bar"></span></div>
+              <p id="result-local"></p>
+            </article>
+            <article class="probability probability--draw">
+              <div class="probability-topline">
+                <span class="probability-label">EMPATE</span>
+                <strong id="draw-percent">—%</strong>
+              </div>
+              <div class="progress-track"><span id="draw-bar"></span></div>
+              <p>Un punto para cada uno</p>
+            </article>
+            <article class="probability probability--away">
+              <div class="probability-topline">
+                <span class="probability-label">GANA EL VISITANTE</span>
+                <strong id="visitor-percent">—%</strong>
+              </div>
+              <div class="progress-track"><span id="visitor-bar"></span></div>
+              <p id="result-visitor"></p>
+            </article>
+          </div>
+          <p class="disclaimer"><span aria-hidden="true">i</span> Es una estimación estadística, no una certeza. El resultado real puede ser distinto.</p>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <span>CANCHA <span class="footer-separator">/</span> FÚTBOL ARGENTINO</span>
+        <span>Hecho para disfrutar la previa.</span>
+      </footer>
+    </div>
+
+    <dialog class="info-dialog" id="info-dialog" aria-labelledby="info-title">
+      <div class="dialog-top">
+        <span class="dialog-icon" aria-hidden="true">i</span>
+        <button class="dialog-close" id="close-info" type="button" aria-label="Cerrar información">×</button>
+      </div>
+      <p class="eyebrow eyebrow--muted">ANTES DEL PITAZO</p>
+      <h2 id="info-title">Un pronóstico,<br><em>no una promesa.</em></h2>
+      <p>
+        Este modelo predictivo usa estadísticas históricas del fútbol argentino
+        entre <strong>1931 y 2021</strong> para estimar las posibilidades de
+        victoria local, empate o victoria visitante.
+      </p>
+      <p class="dialog-disclaimer">
+        El fútbol siempre puede sorprender. La predicción no garantiza el resultado
+        de ningún partido.
+      </p>
+      <button class="dialog-done" id="done-info" type="button">Entendido</button>
+    </dialog>
+  </body>
+</html>
